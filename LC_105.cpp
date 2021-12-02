@@ -30,7 +30,6 @@ public:
     }
     
     TreeNode* bst (TreeNode* root, vector<int>& preorder, vector<int>& inorder){
-        // root = new TreeNode;
         root->val = *preorder.begin();
         
         int count = 0;
@@ -52,22 +51,17 @@ public:
         if (lo_preorder.size() != 0){
             
             root->left = new TreeNode;   
-            if (lo_preorder.size() == 1){
-                (root->left)->val = *lo_preorder.begin();
-            }else{
+            
                 bst(root->left,lo_preorder, lo_inorder);
-            }
+            
         }
         
         if (high_preorder.size() != 0){
             
             root->right = new TreeNode;
 
-            if (high_preorder.size() == 1){
-                (root->right)->val = *high_preorder.begin();
-            }else{
                 bst(root->right, high_preorder, high_inorder);
-            }
+            
         }
         
         return root;
