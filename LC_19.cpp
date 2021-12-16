@@ -2,19 +2,26 @@
 
 
 ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode *traverse = head;
-        int count = 1, node_del;
-
-        while(traverse->next != NULL) {
-        	traverse = traverse->next;
-        	count ++;
+        int count= 0;
+        ListNode* temp = head;
+        
+        
+        
+        while(temp != NULL){
+            temp = temp->next;
+            count++;
         }
 
-        node_del = count - n + 1;
-
-        count = 0;
-
-        ListNode *prior, *main;
-
-        for (int index = 0; index < node_del; index++) {}
+        if(count == 1) return NULL;
+        if(count == n) return head->next;
+        
+        temp = head;
+        for ( int i = 1; i < count - n; i++){
+            temp = temp->next;
+        }
+        
+        temp->next = temp->next->next;
+        
+        return head;
+        
     }
