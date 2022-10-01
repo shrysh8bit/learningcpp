@@ -1,40 +1,31 @@
 class Solution {
 public:
     bool isIsomorphic(string s, string t) {
-        vector<int> source (256,0);
-        vector<int> target (256,0);
-        int src = 39, tgt = 39;
-        int temp;
-        
+        vector<int> src (256,0);
+        vector<int> tgt (256,0);
+        int c_s = 33, c_t = 33;
+        char temp;
+
         for (int i = 0; i < s.size(); i++){
-            if(source[(int)s[i]] == 0) {
-                src++;
-                source[(int)s[i]] = src;
-                temp = src;        
+            if(src[(int)s[i]] == 0){
+                src[(int)s[i]] = c_s;
+                s[i] = (char)c_s;
+                c_s++;
             }else{
-                temp = source[(int)s[i]];
+                s[i] = (char)src[(int)s[i]];
             }
-            s[i] = char(temp);
         }
-        
+
         for (int i = 0; i < t.size(); i++){
-            if(target[(int)t[i]] == 0) {
-                tgt++;
-                target[(int)t[i]] = tgt;
-                temp = tgt;        
+            if(tgt[(int)t[i]] == 0){
+                tgt[(int)t[i]] = c_t;
+                t[i] = (char)c_t;
+                c_t++;
             }else{
-                temp = target[(int)t[i]];
+                t[i] = (char)tgt[(int)t[i]];
             }
-            
-            t[i] = char(temp) ;
         }
-        
-        // cout << s << " " << t << endl;
-        
-        for (int i = 0; i < s.size(); i++){
-            if(s[i] != t[i]) return 0;
-        }
-        
-        return 1;
+
+        return s==t;
     }
 };
