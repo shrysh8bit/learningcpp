@@ -1,83 +1,39 @@
-#include<iostream>
-#include<vector>
-#include<algorithm>
-#include<map>
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        int l,r;
+        vector<vector<int>> result;
+        vector<int> temp;
 
-using namespace std;
+        for (int i = 0; i < nums.size() -2 ; i++){
+            if (i > 0 && nums[i] == nums[i-1]) continue;
+            l =  i + 1;
+            r = nums.size() -1;
 
+            while ( l < r){
+                if(nums[i] + nums[l] + nums[r] == 0){
+                    temp.clear();
+                    temp.push_back(nums[i]);
+                    temp.push_back(nums[l]);
+                    temp.push_back(nums[r]);
+                    result.push_back(temp);
+                    do{
+                        l++;
+                    }while (l < r && nums[l] == nums[l-1]);
 
-vector<vector<int>> threeSum(vector<int>& nums) {
-    vector<vector<int>> answer;
-    vector<int> ans_temp;
-    map<vector<int>, int> ans_single;
-    sort(nums.begin(), nums.end());
-
-    // for ( auto pr : nums){
-    //     cout << pr << " ";
-    // }
-    // cout << endl;
-    int found = 0;
-    int left, right;
-    for ( int i = 0; i < nums.size(); i++){
-        // while (nums[i] == nums[i-1]){
-        //     i++;
-        // }
-        
-        left = i + 1;
-        right = nums.size() - 1;
-        found = 0;
-
-        while ( left < right){
-
-            if ( (nums[left] + nums[right]) == (-nums[i])){
-                ans_temp.push_back(nums[i]);
-                ans_temp.push_back(nums[left]);
-                ans_temp.push_back(nums[right]);
-                // answer.push_back(ans_temp);
-                ans_single[ans_temp] = 1;
-                ans_temp.clear();
-                // found = 1;
-            }
-            // cout << "i  " << nums[i] << "  l " << nums[left] << "   r: " << nums[right] << endl;
-
-            if (nums[i] + nums[left] + nums[right] >= 0){
-                right--;
-            }
-
-            if (nums[i] + nums[left] + nums[right] < 0){
-                left++;
+                }else if (nums[i] + nums[l] + nums[r] < 0){
+                    do{
+                        l++;
+                    }while (l < r && nums[l] == nums[l-1]);
+                }else{
+                    do{
+                        r--;
+                    }while (l < r && nums[r] == nums[r+1]);
+                }
             }
         }
+
+        return result;
     }
-
-    for ( auto pr : ans_single){
-        answer.push_back(pr.first);
-    }
-
-    for ( auto pr : answer){
-        for ( auto it : pr){
-            cout << it << " ";
-        }
-        cout << endl;
-    }
-
-
-    return answer;        
-    
-}
-
-
-
-
-int main(){
-    vector<int> nums = {-2,0,1,1,2};
-    vector<vector<int>> answer;
-
-    answer = threeSum(nums);
-    cout << answer.size() << endl;
-
-
-
-
-    return 0;
-}
+};
