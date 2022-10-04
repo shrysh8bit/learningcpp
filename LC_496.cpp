@@ -1,38 +1,34 @@
-#include <iostream>
-#include <vector>
-#include <unordered_map>
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        map<int,int> greater;
+        stack<int> stk;
+        vector<int> result;
 
-using namespace std;
-
-void nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
-    unordered_map<int, int> greater;
-    vector<int> ans;
-    
-    for ( int i = 0; i < nums2.size(); i++){
-        for (int j = i + 1; j < nums2.size(); j++){
-            // cout <<nums2[i] << " " << nums2[j] << endl;
-            if (nums2[j] > nums2[i]){
-                greater[nums2[i]] = nums2[j];
-                break;
+        for ( int i =  nums2.size() -1 ; i >= 0; i--){
+            if(stk.empty()){
+                 greater[nums2[i]] = -1;
+                 stk.push(nums2[i]);
+            }else{
+                while(!stk.empty() && stk.top() < nums2[i]){
+                    stk.pop();
+                }
+                if(stk.empty()){
+                    greater[nums2[i]] = -1;
+                    stk.push(nums2[i]);
+                    continue;
+                }
+                greater[nums2[i]] = stk.top();
+                stk.push(nums2[i]);
             }
         }
-        if (greater[nums2[i]] == 0 ){            
-            greater[nums2[i]] = -1;
+
+        for (int i : nums1){
+            result.push_back(greater[i]);
         }
+
+        return result;
+
+
     }
-    
-    for (int i = 0; i < nums1.size(); i++){
-        ans.push_back(  (greater[nums1[i]]) );
-    }
-
-    return ans;
-}
-
-int main(){
-    vector<int> nums2 = {1,3,4,2};
-    vector<int> nums1 = {4,1,2};
-
-    nextGreaterElement(nums1, nums2);
-
-    return 0;
-}
+};
